@@ -11,28 +11,25 @@ const connection = await createConnection({
 
 export const database = {
     async insert(short_url,original_url,expired){
-
+       
         const isExist = await this.select(short_url);
-        if(isExist !== 0)return short_url;
-
+        if(isExist !== undefined)return short_url;
+        
         const statement = "INSERT INTO url(short_url,original_url,created,expired) VALUES (?,?,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP + INTERVAL ? HOUR);";
         const values = [short_url, original_url, expired];
-
+        
         const [result,fiels] = await connection.query(
             statement,values
         );
-        await connection.end();
         return short_url;
     },
 
     async select(short_url){
         const statement = "SELECT original_url FROM url WHERE short_url = ?;";
         const values = [short_url];
-
         const [result,fields] =  await connection.query(statement,values);
-        await connection.end();
-        
-        if(result.length === 0)return "empty";
+
+        if(result.length === 0)return undefined;
         return result;
     }
 }

@@ -1,15 +1,24 @@
-const url = "http://127.0.0.1:8080";
+const url = "http://localhost:8080";
 
-const makeRequest = async (orignal_url,alias,periode=1)=>{
+const makeRequest = async (original_url,alias,periode=1)=>{
     const requestBody = {
-        orignal_url,
+        original_url,
         alias,
         periode
     }
 
-    const respond = await fetch(url);
-    
-    console.log(respond.json);
+    const respond = await fetch(url,{
+        method:"POST",
+        headers: {
+            "Content-Type":"application/json"
+        },
+        body: JSON.stringify(requestBody)
+    });
+    const data = await respond.json();
+    const short_url = data.short_url;
+    const message = document.getElementById("message");
+    console.log(short_url);
+    message.textContent = "http://localhost:8080/"+short_url;
 }
 
 document.getElementById("form").addEventListener('submit',(event)=>{
