@@ -1,0 +1,16 @@
+{
+  "name": "url_shorten",
+  "version": "1.0.0",
+  "description": "shorten url",
+  "main": "app.mjs",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "w-ptr",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.4.2",
+    "express": "^4.18.2",
+    "mysql2": "^3.9.1"
+  }
+}
