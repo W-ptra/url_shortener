@@ -28,6 +28,8 @@ document.getElementById("form").addEventListener('submit',(event)=>{
     const alias = document.getElementById("alias").value;
     const period = document.getElementById("period").value;
 
+    if(period.length === 0)period=1;
+
     if(orignal_url.length === 0){
         const message = document.getElementById("message");
         message.textContent = "Link can't empty";

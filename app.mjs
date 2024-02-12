@@ -36,13 +36,11 @@ app.post('/',async (req,res)=>{
     
     if(alias === undefined){
         const short_url = await database.insert(alias,original_url,period);
-        
         res.status(200).send({short_url});
     }
     else{
         const short_url = hashing(original_url); 
         await database.insert(short_url,original_url,period);
-       
         res.status(200).send({short_url});
     }
 });
@@ -51,4 +49,7 @@ app.listen(port,()=>{
     console.log(`listening to ${url}:${port}`);
 });
 
-console.log("test");
+setInterval(async ()=>{
+    console.log("regular deleting expired link");
+    await database.delete();
+},3600000)
