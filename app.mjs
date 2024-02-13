@@ -10,7 +10,7 @@ app.use(cors({ origin: '*' }));
 app.use(express.json());
 
 app.use('/',(req,res,next)=>{
-    
+    console.log(`${req.method} ${req.path} ${req.url} ${req.ip}`);
     next();
 });
 
@@ -33,12 +33,14 @@ app.post('/',async (req,res)=>{
     const original_url = req.body.original_url;
     const alias = req.body.alias;
     const period = req.body.periode;
-    
-    if(alias === undefined){
+    console.log(alias);
+    if(alias.length !== 0){
+        console.log("undefine");
         const short_url = await database.insert(alias,original_url,period);
         res.status(200).send({short_url});
     }
     else{
+        console.log("not undefine");
         const short_url = hashing(original_url); 
         await database.insert(short_url,original_url,period);
         res.status(200).send({short_url});
