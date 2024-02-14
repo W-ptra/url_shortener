@@ -1,5 +1,5 @@
 # url_shortener
-![alt text](https://drive.google.com/file/d/1OgHfLByZ-r1T5DLX6AwPvthObBW4N5D_/view?usp=sharing)
+![video](https://drive.google.com/uc?export=view&id=1nyZVelpn6G5gexo3tnnlmALHxNVa17OA)
 
 # Description
 A simple URL shortener using md5 hashing, express.js and mysql
