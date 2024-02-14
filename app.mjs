@@ -1,64 +1,32 @@
-import { database } from "./schema/operation.mjs";
-import { hashing } from "./hashing.mjs";
+import { database } from "./schema/database.mjs"
+import { redirect } from "./routes/redirect.mjs";
+import { registerLink } from "./routes/registerLink.mjs";
+import { logger } from "./middleware/logger.mjs";
 import express from "express";
 import cors from "cors";
 const app = express();
 const port = 8080;
-const url = "0.0.0.0";
+//const url = "0.0.0.0";
 
 app.use(cors({ origin: '*' }));
 app.use(express.json());
+app.use(express.static("web"));
 
-app.use('/', (req, res, next) => {
-    console.log(`${req.method} ${req.path} ${req.url} ${req.ip}`);
-    next();
-});
+app.use('/',logger);
 
 app.get('/', (req, res) => {
-
-    res.status(200).send({ message: "OK" });
+    res.status(200).sendFile(path.join(__dirname,"./web/index.html"));
 });
 
-app.get('/:short_url', async (req, res) => {
-    const short_url = req.params.short_url;
+app.get('/:short_url',redirect);
 
-    const data = await database.select(short_url);
-    const original_url = data[0].original_url;
-
-    if (original_url === undefined) res.status(200).send("<h1>Invalid short link</h1>");
-    else res.status(301).redirect(original_url);
-});
-
-app.post('/', async (req, res) => {
-    const original_url = req.body.original_url;
-    try {
-        await fetch(original_url);
-    }
-    catch (error) {
-        return res.status(404).send({ message: "link is not accessible" });
-    }
-
-    const alias = req.body.alias;
-    const period = req.body.periode;
-    console.log(alias);
-    if (alias.length !== 0) {
-        console.log("undefine");
-        const short_url = await database.insert(alias, original_url, period);
-        res.status(200).send({ short_url });
-    }
-    else {
-        console.log("not undefine");
-        const short_url = hashing(original_url);
-        await database.insert(short_url, original_url, period);
-        res.status(200).send({ short_url });
-    }
-});
+app.post('/', registerLink);
 
 app.listen(port, () => {
-    console.log(`listening to ${url}:${port}`);
+    console.log(`listening to port: ${port}`);
 });
 
 setInterval(async () => {
-    console.log("regular deleting expired link");
+    console.log("deleting expired link");
     await database.delete();
 }, 3600000)
