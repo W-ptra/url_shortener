@@ -12,7 +12,7 @@ A simple URL shortener by hashing the original url using md5 then took the first
 1. Clone repository  
 ``git clone https://github.com/W-ptra/url_shortener.git``  
 2. Edit ``.env`` file  
-![img](https://drive.google.com/uc?export=view&id=16fe0TmknoY6HZgIskv0OWh2W_afbPSnP)
+![img](https://drive.google.com/uc?export=view&id=16fe0TmknoY6HZgIskv0OWh2W_afbPSnP)  
 replace ``host``,``port``,``user``,``password``,``database`` with your actual mysql credential  
 3. Run  
 ``npm install`` on terminal
